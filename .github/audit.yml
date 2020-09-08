@@ -1,0 +1,22 @@
+name: npm audit
+
+on:
+  schedule:
+    - cron: "0 0 * * 5"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  scan:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.5.0
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          issue_assignees: tomxpcvx
+          issue_labels: vulnerability
